@@ -14,29 +14,30 @@ class PlaySoundsViewController: UIViewController{
     
     //Declare variable audioPlayer.
     var audioPlayer:AVAudioPlayer!
+    
+    // To pass teh recording from the other Controller.
+    var receivedAudio:RecordedAudio!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Create a path to the file. NSBundle.mainBUndle returns the path where the app is located. pathForResource gives the path to the folder where the mp3 file is located.
         
-        if var filePath = NSBundle.mainBundle().pathForResource("movie_quote", ofType: "mp3"){
-            
-            // This converts the string to NSURL, as is suggested in the documentation.
-            let filePathUrl = NSURL.fileURLWithPath(filePath)
-            
-            // Initialize AVAudioPlayer.
-            
-            audioPlayer = try!
-                AVAudioPlayer(contentsOfURL: filePathUrl)
-            
-            // To enable speed regulation.
-            audioPlayer.enableRate = true
-            
-        }else {
-            
-            print("The filePath is empty.")
-        }
+//        if var filePath = NSBundle.mainBundle().pathForResource("movie_quote", ofType: "mp3"){
+//            
+//            // This converts the string to NSURL, as is suggested in the documentation.
+//            let filePathUrl = NSURL.fileURLWithPath(filePath)
+//            
+//        }else {
+//            
+//            print("The filePath is empty.")
+//        }
+        
+        // Initialize AVAudioPlayer.
+        audioPlayer = try! AVAudioPlayer(contentsOfURL: receivedAudio.filePathUrl)
+        
+        // To enable speed regulation.
+        audioPlayer.enableRate = true
     }
 
 

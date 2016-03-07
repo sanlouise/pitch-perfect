@@ -63,7 +63,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
             recordedAudio.title = recorder.url.lastPathComponent
             
             // Perform the segue
-            self.performSegueWithIdentifier("stopRecording", sender: recordedAudio)
+//            self.performSegueWithIdentifier("stopRecording", sender: recordedAudio)
             
         } else {
             
@@ -74,11 +74,26 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         
     }
     
+    // To pass data to the next Controller.
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if (segue.identifier == "stopRecording") {
+            
+            let playSoundsVC:PlaySoundsViewController = segue.destinationViewController as! PlaySoundsViewController
+            let data = sender as! RecordedAudio
+            playSoundsVC.receivedAudio = data
+
+        }
+        
+    }
+    
+    
     @IBOutlet var recordButton: UIButton!
     @IBAction func stopRecording(sender: AnyObject) {
         
         recordButton.enabled = true
         stopRecordingButton.enabled = false
+        recordingLabel.text = "Tap to Record"
         audioRecorder.stop()
         let audioSession = AVAudioSession.sharedInstance()
         try! audioSession.setActive(false)
@@ -101,6 +116,9 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
+    
 
 
 }

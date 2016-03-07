@@ -6,7 +6,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Record Sounds View Controller-->
+        <!--Record-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="RecordSoundsViewController" customModule="Pitch_Perfect" customModuleProvider="target" sceneMemberID="viewController">
@@ -39,7 +39,6 @@
                                 <state key="normal" image="StopButton"/>
                                 <connections>
                                     <action selector="stopRecording:" destination="BYZ-38-t0r" eventType="touchUpInside" id="z3Y-Z3-nLb"/>
-                                    <segue destination="ThZ-EY-gLG" kind="show" id="mFn-h7-okX"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -53,12 +52,12 @@
                             <constraint firstItem="1LV-0r-8wY" firstAttribute="top" secondItem="HCf-85-3bB" secondAttribute="bottom" constant="46" id="w6s-Ws-Tyi"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Jze-Dv-i3d"/>
+                    <navigationItem key="navigationItem" title="Record" id="Jze-Dv-i3d"/>
                     <connections>
                         <outlet property="recordButton" destination="Cq6-Jy-4Jr" id="CPG-6t-CMI"/>
                         <outlet property="recordingLabel" destination="HCf-85-3bB" id="8Je-2C-6LF"/>
                         <outlet property="stopRecordingButton" destination="1LV-0r-8wY" id="T22-LU-eq8"/>
-                        <segue destination="ThZ-EY-gLG" kind="show" identifier="stopRecording" id="vIx-Tl-rjT"/>
+                        <segue destination="ThZ-EY-gLG" kind="show" identifier="stopRecording" id="eQ7-OT-a4H"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -98,11 +97,17 @@
                                     <action selector="stopAudio:" destination="ThZ-EY-gLG" eventType="touchUpInside" id="ltN-rA-dgm"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GQr-ab-D4c">
+                                <rect key="frame" x="40" y="284" width="100" height="100"/>
+                                <state key="normal" image="Chipmunk"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.8560212254524231" green="0.96240705251693726" blue="0.89235705137252808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="GQr-ab-D4c" firstAttribute="top" secondItem="zB4-3M-nGi" secondAttribute="bottom" constant="62" id="0ij-yC-A2e"/>
                             <constraint firstItem="DYk-8b-a4d" firstAttribute="centerY" secondItem="a5t-k5-Kqi" secondAttribute="centerY" constant="147" id="Z92-um-K7c"/>
                             <constraint firstItem="DYk-8b-a4d" firstAttribute="centerX" secondItem="a5t-k5-Kqi" secondAttribute="centerX" id="dfb-aN-9c6"/>
+                            <constraint firstItem="GQr-ab-D4c" firstAttribute="leading" secondItem="a5t-k5-Kqi" secondAttribute="leadingMargin" constant="20" id="e13-tS-3MJ"/>
                             <constraint firstItem="zB4-3M-nGi" firstAttribute="top" secondItem="vIT-Pf-ZP5" secondAttribute="bottom" constant="58" id="eUW-Oe-Z9c"/>
                             <constraint firstItem="f2M-Vw-TL3" firstAttribute="top" secondItem="vIT-Pf-ZP5" secondAttribute="bottom" constant="58" id="feD-tU-Sf0"/>
                             <constraint firstAttribute="trailingMargin" secondItem="f2M-Vw-TL3" secondAttribute="trailing" constant="24" id="hT5-82-kNG"/>
@@ -136,12 +141,10 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Chipmunk" width="100" height="100"/>
         <image name="Fast" width="100" height="100"/>
         <image name="Microphone" width="100" height="100"/>
         <image name="Slow" width="100" height="100"/>
         <image name="StopButton" width="50" height="50"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="vIx-Tl-rjT"/>
-    </inferredMetricsTieBreakers>
 </document>
