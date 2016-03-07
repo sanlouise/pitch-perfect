@@ -14,11 +14,10 @@ class PlaySoundsViewController: UIViewController{
     
     //Declare variable audioPlayer.
     var audioPlayer:AVAudioPlayer!
-    
     // To pass the recording from the other Controller.
     var receivedAudio:RecordedAudio!
-    
     var audioEngine:AVAudioEngine!
+    var audioFile:AVAudioFile!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +35,7 @@ class PlaySoundsViewController: UIViewController{
         audioPlayer = try! AVAudioPlayer(contentsOfURL: receivedAudio.filePathUrl)
         audioPlayer.enableRate = true
         audioEngine = AVAudioEngine()
+        audioFile = try! AVAudioFile(forReading: receivedAudio.filePathUrl)
     }
 
 
