@@ -47,10 +47,6 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         audioRecorder.prepareToRecord()
         audioRecorder.record()
         
-        //Inside func stopAudio(sender: UIButton)
-        audioRecorder.stop()
-        let audioSession = AVAudioSession.sharedInstance()
-        try! audioSession.setActive(false)
         
     }
     // Recorder refers to the actual file recorded on the phone
@@ -63,7 +59,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
             recordedAudio.title = recorder.url.lastPathComponent
             
             // Perform the segue
-//            self.performSegueWithIdentifier("stopRecording", sender: recordedAudio)
+          self.performSegueWithIdentifier("stopRecording", sender: recordedAudio)
             
         } else {
             
