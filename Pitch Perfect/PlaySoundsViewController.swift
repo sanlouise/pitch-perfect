@@ -12,9 +12,11 @@ import AVFoundation
 class PlaySoundsViewController: UIViewController{
 
     var audioPlayer:AVAudioPlayer!
+    var audioPlayerEcho:AVAudioPlayer!
     var receivedAudio:RecordedAudio!
     var audioEngine:AVAudioEngine!
     var audioFile:AVAudioFile!
+    var audioPlayerNode: AVAudioPlayerNode!
 
     @IBOutlet var stopAudioButton: UIButton!
 
@@ -73,7 +75,37 @@ class PlaySoundsViewController: UIViewController{
     @IBAction func playDarthvaderAudio(sender: UIButton) {
         playAudioWithVariablePitch(-1000)
     }
+    
+    
+    @IBAction func playEchoAudio(sender: UIButton) {
+        
+        let audioEcho = AVAudioUnitDistortion()
 
+        audioEcho.loadFactoryPreset(AVAudioUnitDistortionPreset.MultiEcho2)
+        audioEcho.preGain = -10
+        audioEcho.wetDryMix = 99
+        
+        playAudioWithEffect(audioEcho)
+    }
+    
+    private func playAudioWithEffect(audioUnit: AVAudioUnit) {
+
+        stopAudio(self)
+        audioPlayerNode = AVAudioPlayerNode()
+
+        audioEngine.attachNode(audioPlayerNode)
+        audioEngine.attachNode(audioUnit)
+        
+        audioEngine.connect(audioPlayerNode, to: audioUnit, format: nil)
+        audioEngine.connect(audioUnit, to: audioEngine.outputNode, format: nil)
+        
+        audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
+        try! audioEngine.start()
+    
+        stopAudioButton.enabled = true
+        audioPlayerNode.play()
+        
+    }
 
     @IBAction func stopAudio(sender: AnyObject) {
         audioEngine.stop()
