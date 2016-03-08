@@ -13,10 +13,11 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     
     var audioRecorder:AVAudioRecorder!
     var recordedAudio:RecordedAudio!
-    
-    // Add UI Buttons for pause/resume recording.
     var pauseImage: UIImage!
     var resumeImage: UIImage!
+
+    @IBOutlet weak var stopRecordingButton: UIButton!
+    @IBOutlet weak var pauseRecording: UIButton!
     
     @IBOutlet var recordButton: UIButton!
     @IBOutlet var recordingLabel: UILabel!
@@ -31,18 +32,37 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         // Create a path to the mp3 file, here it is the document directory.
         let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
         let recordingName = "my_audio.wav"
-
         let pathArray = [dirPath, recordingName]
         let filePath = NSURL.fileURLWithPathComponents(pathArray)
-        
         let session = AVAudioSession.sharedInstance()
         try! session.setCategory(AVAudioSessionCategoryPlayAndRecord)
-        
         try! audioRecorder = AVAudioRecorder(URL: filePath!, settings: [:])
         audioRecorder.delegate = self
         audioRecorder.meteringEnabled = true
         audioRecorder.prepareToRecord()
         audioRecorder.record()
+    }
+    
+    @IBAction func stopRecording(sender: AnyObject) {
+        recordButton.enabled = true
+        stopRecordingButton.hidden = true
+        pauseRecording.hidden = true
+        recordingLabel.text = "Tap to Record"
+        audioRecorder.stop()
+        let audioSession = AVAudioSession.sharedInstance()
+        try! audioSession.setActive(false)
+    }
+    
+    @IBAction func doPauseRecording(sender: UIButton) {
+        if (audioRecorder.recording) {
+            audioRecorder.pause()
+            recordingLabel.text = "Paused"
+            pauseRecording.setImage(resumeImage, forState: UIControlState.Normal)
+        } else {
+            audioRecorder.record()
+            recordingLabel.text = "Recording"
+            pauseRecording.setImage(pauseImage, forState: UIControlState.Normal)
+        }
     }
     
     // Recorder refers to the actual file recorded on the phone
@@ -65,33 +85,6 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
             let data = sender as! RecordedAudio
             playSoundsVC.receivedAudio = data
         }
-    }
-    
-    
-    @IBAction func stopRecording(sender: AnyObject) {
-        recordButton.enabled = true
-        stopRecordingButton.hidden = true
-        pauseRecording.hidden = true
-        recordingLabel.text = "Tap to Record"
-        audioRecorder.stop()
-        let audioSession = AVAudioSession.sharedInstance()
-        try! audioSession.setActive(false)
-    }
-    
-    @IBOutlet var stopRecordingButton: UIButton!
-    @IBOutlet var pauseRecording: UIButton!
-    @IBAction func doPauseRecording(sender: UIButton) {
-        
-        if (audioRecorder.recording) {
-            audioRecorder.pause()
-            recordingLabel.text = "Paused"
-            pauseRecording.setImage(resumeImage, forState: UIControlState.Normal)
-        } else {
-            audioRecorder.record()
-            recordingLabel.text = "Recording"
-            pauseRecording.setImage(pauseImage, forState: UIControlState.Normal)
-        }
-
     }
     
     override func viewDidLoad() {

@@ -66,10 +66,10 @@
                     </view>
                     <navigationItem key="navigationItem" title="Record" id="Jze-Dv-i3d"/>
                     <connections>
-                        <outlet property="pauseRecording" destination="Ctz-5b-AGm" id="YGQ-sr-xct"/>
+                        <outlet property="pauseRecording" destination="Ctz-5b-AGm" id="gXJ-ig-9oK"/>
                         <outlet property="recordButton" destination="Cq6-Jy-4Jr" id="e7H-Sf-Dp4"/>
                         <outlet property="recordingLabel" destination="HCf-85-3bB" id="8Je-2C-6LF"/>
-                        <outlet property="stopRecordingButton" destination="1LV-0r-8wY" id="T22-LU-eq8"/>
+                        <outlet property="stopRecordingButton" destination="1LV-0r-8wY" id="zzy-dI-foC"/>
                         <segue destination="ThZ-EY-gLG" kind="show" identifier="stopRecording" id="eQ7-OT-a4H"/>
                     </connections>
                 </viewController>
@@ -107,7 +107,7 @@
                                 <rect key="frame" x="162" y="502" width="50" height="50"/>
                                 <state key="normal" image="StopButton"/>
                                 <connections>
-                                    <action selector="stopAudio:" destination="ThZ-EY-gLG" eventType="touchUpInside" id="GMH-eF-s7f"/>
+                                    <action selector="stopAudio:" destination="ThZ-EY-gLG" eventType="touchUpInside" id="jpR-um-mVR"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eLY-Gq-XBi">
