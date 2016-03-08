@@ -14,26 +14,23 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     var audioRecorder:AVAudioRecorder!
     var recordedAudio:RecordedAudio!
     
+    var pauseImage: UIImage!
+    var resumeImage: UIImage!
+    
+    @IBOutlet var recordButton: UIButton!
     @IBOutlet var recordingLabel: UILabel!
     @IBAction func recordAudio(sender: AnyObject) {
-        
-        // When recording, disable Recording Button and enable Stop Recording Button.
         recordButton.enabled = false
+        stopRecordingButton.hidden = false
         stopRecordingButton.enabled = true
+        pauseRecording.hidden = false
         recordingLabel.text = "Recording"
         
         
-//         Create a path to the mp3 file, here it is the document directory.
+        // Create a path to the mp3 file, here it is the document directory.
         let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
-        
-        //Use this code to store the recorded audiofiles with their creation date. This is not optimal for storage, however.
-//        let currentDateTime = NSDate()
-//        let formatter = NSDateFormatter()
-//        formatter.dateFormat = "ddMMyyyy-HHmmss"
-//        let recordingName = formatter.stringFromDate(currentDateTime)+".wav"
-        
         let recordingName = "my_audio.wav"
-        
+
         let pathArray = [dirPath, recordingName]
         let filePath = NSURL.fileURLWithPathComponents(pathArray)
         print(filePath)
@@ -46,9 +43,8 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         audioRecorder.meteringEnabled = true
         audioRecorder.prepareToRecord()
         audioRecorder.record()
-        
-        
     }
+    
     // Recorder refers to the actual file recorded on the phone
     func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
         if (flag) {
@@ -67,7 +63,6 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
             stopRecordingButton.hidden = true
             recordButton.enabled = true
         }
-        
     }
     
     // To pass data to the next Controller.
@@ -78,44 +73,52 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
             let playSoundsVC:PlaySoundsViewController = segue.destinationViewController as! PlaySoundsViewController
             let data = sender as! RecordedAudio
             playSoundsVC.receivedAudio = data
-
         }
-        
     }
     
     
-    @IBOutlet var recordButton: UIButton!
     @IBAction func stopRecording(sender: AnyObject) {
         
         recordButton.enabled = true
         stopRecordingButton.enabled = false
+        pauseRecording.hidden = true
         recordingLabel.text = "Tap to Record"
         audioRecorder.stop()
         let audioSession = AVAudioSession.sharedInstance()
         try! audioSession.setActive(false)
-        
     }
     
     @IBOutlet var stopRecordingButton: UIButton!
+    @IBOutlet var pauseRecording: UIButton!
+    @IBAction func doPauseRecording(sender: UIButton) {
+        
+        if (audioRecorder.recording) {
+            audioRecorder.pause()
+            recordingLabel.text = "Paused"
+            pauseRecording.setImage(resumeImage, forState: UIControlState.Normal)
+        } else {
+            audioRecorder.record()
+            recordingLabel.text = "Recording"
+            pauseRecording.setImage(pauseImage, forState: UIControlState.Normal)
+        }
+        
+        
+    }
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // When the view has loaded, disable the Stop Recording button.
         stopRecordingButton.enabled = false
         
+        pauseImage = UIImage(named: "Pause")
+        resumeImage = UIImage(named: "Resume")
         
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+
     }
     
-    
-    
-
 
 }
 
