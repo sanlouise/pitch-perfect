@@ -24,7 +24,6 @@ class PlaySoundsViewController: UIViewController{
         super.viewDidLoad()
 
         audioPlayer = try! AVAudioPlayer(contentsOfURL: receivedAudio.filePathUrl)
-        audioPlayer.enableRate = true
         audioEngine = AVAudioEngine()
         audioFile = try! AVAudioFile(forReading: receivedAudio.filePathUrl)
     }
@@ -32,7 +31,6 @@ class PlaySoundsViewController: UIViewController{
     func playAudioRate(audioPlaybackRate rate: float_t) {
         stopAudio(self)
         audioPlayer.enableRate = true
-        stopAudioButton.enabled = true
         audioPlayer.rate = rate
         audioPlayer.currentTime = 0.0
         audioPlayer.play()
@@ -52,25 +50,10 @@ class PlaySoundsViewController: UIViewController{
     }
     
     func playAudioWithVariablePitch(pitch: Float){
-        audioPlayer.stop()
-        audioEngine.stop()
-        audioEngine.reset()
-        
-        //Node for playing audio.
-        let audioPlayerNode = AVAudioPlayerNode()
-        audioEngine.attachNode(audioPlayerNode)
-        
+        stopAudio(self)
         let changePitchEffect = AVAudioUnitTimePitch()
         changePitchEffect.pitch = pitch
-        audioEngine.attachNode(changePitchEffect)
-        
-        audioEngine.connect(audioPlayerNode, to: changePitchEffect, format: nil)
-        audioEngine.connect(changePitchEffect, to: audioEngine.outputNode, format: nil)
-        
-        audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
-        try! audioEngine.start()
-        
-        audioPlayerNode.play()
+        playAudioWithEffect(changePitchEffect)
     }
     
     @IBAction func playDarthvaderAudio(sender: UIButton) {
@@ -81,21 +64,19 @@ class PlaySoundsViewController: UIViewController{
     @IBAction func playEchoAudio(sender: UIButton) {
         
         let audioEcho = AVAudioUnitDistortion()
-        
         //Configures the audio distortion unit by loading a distortion preset.
         audioEcho.loadFactoryPreset(AVAudioUnitDistortionPreset.MultiEcho2)
         audioEcho.preGain = -10
         audioEcho.wetDryMix = 99
         
-        playAudioWithEchoEffect(audioEcho)
+        playAudioWithEffect(audioEcho)
     }
     
     // Invoke this method for playEchoAudio.
-    private func playAudioWithEchoEffect(audioUnit: AVAudioUnit) {
+    private func playAudioWithEffect(audioUnit: AVAudioUnit) {
 
         stopAudio(self)
-        
-        //Node for playing audio.
+        stopAudioButton.enabled = true
         audioPlayerNode = AVAudioPlayerNode()
 
         audioEngine.attachNode(audioPlayerNode)
@@ -106,13 +87,10 @@ class PlaySoundsViewController: UIViewController{
         
         audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
         try! audioEngine.start()
-    
-        stopAudioButton.enabled = true
         audioPlayerNode.play()
         
     }
 
-    // To effectively refactor this code.
     @IBAction func stopAudio(sender: AnyObject) {
         audioEngine.stop()
         audioPlayer.stop()
@@ -121,9 +99,4 @@ class PlaySoundsViewController: UIViewController{
         stopAudioButton.enabled = false
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
 }

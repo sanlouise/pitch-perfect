@@ -98,13 +98,10 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         stopRecordingButton.enabled = false
+        stopRecordingButton.hidden = true
         pauseImage = UIImage(named: "Pause")
         resumeImage = UIImage(named: "Resume")
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-
-    }
 }
 
