@@ -56,6 +56,7 @@ class PlaySoundsViewController: UIViewController{
         audioEngine.stop()
         audioEngine.reset()
         
+        //Node for playing audio.
         let audioPlayerNode = AVAudioPlayerNode()
         audioEngine.attachNode(audioPlayerNode)
         
@@ -80,17 +81,21 @@ class PlaySoundsViewController: UIViewController{
     @IBAction func playEchoAudio(sender: UIButton) {
         
         let audioEcho = AVAudioUnitDistortion()
-
+        
+        //Configures the audio distortion unit by loading a distortion preset.
         audioEcho.loadFactoryPreset(AVAudioUnitDistortionPreset.MultiEcho2)
         audioEcho.preGain = -10
         audioEcho.wetDryMix = 99
         
-        playAudioWithEffect(audioEcho)
+        playAudioWithEchoEffect(audioEcho)
     }
     
-    private func playAudioWithEffect(audioUnit: AVAudioUnit) {
+    // Invoke this method for playEchoAudio.
+    private func playAudioWithEchoEffect(audioUnit: AVAudioUnit) {
 
         stopAudio(self)
+        
+        //Node for playing audio.
         audioPlayerNode = AVAudioPlayerNode()
 
         audioEngine.attachNode(audioPlayerNode)
@@ -107,6 +112,7 @@ class PlaySoundsViewController: UIViewController{
         
     }
 
+    // To effectively refactor this code.
     @IBAction func stopAudio(sender: AnyObject) {
         audioEngine.stop()
         audioPlayer.stop()
