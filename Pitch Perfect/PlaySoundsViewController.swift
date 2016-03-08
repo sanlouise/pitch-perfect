@@ -16,6 +16,8 @@ class PlaySoundsViewController: UIViewController{
     var audioEngine:AVAudioEngine!
     var audioFile:AVAudioFile!
 
+    @IBOutlet var stopAudioButton: UIButton!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,7 +28,6 @@ class PlaySoundsViewController: UIViewController{
     }
     
     func playAudioRate(audioPlaybackRate rate: float_t) {
-
         stopAudio(self)
         audioPlayer.enableRate = true
         stopAudioButton.enabled = true
@@ -73,7 +74,6 @@ class PlaySoundsViewController: UIViewController{
         playAudioWithVariablePitch(-1000)
     }
 
-    @IBOutlet var stopAudioButton: UIButton!
 
     @IBAction func stopAudio(sender: AnyObject) {
         audioEngine.stop()
